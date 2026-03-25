@@ -29,17 +29,17 @@ jobs:
         run: |
           cd twrp
           mkdir -p device/tecno
-          git clone https://github.com/XTENSEI/twrp_device_tecno_LJ7 device/tecno/lj7
+          git clone https://github.com/XTENSEI/twrp_device_tecno_LJ7 device/tecno/LJ7
       
       - name: Build vendor_boot image
         run: |
           cd twrp
           source build/envsetup.sh
-          lunch twrp_lj7-eng
+          lunch twrp_LJ7-eng
           mka vendor_bootimage
       
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: twrp-lj7-vendor_boot
-          path: twrp/out/target/product/lj7/vendor_boot.img
+          name: twrp-LJ7-vendor_boot
+          path: twrp/out/target/product/LJ7/vendor_boot.img
