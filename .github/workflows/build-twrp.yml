@@ -6,11 +6,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout device tree
-        uses: actions/checkout@v4
-        with:
-          path: device-tree
-      
       - name: Setup build environment
         run: |
           sudo apt update
@@ -19,7 +14,6 @@ jobs:
             x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils \
             xsltproc unzip fontconfig python3 python-is-python3
           
-          # Устанавливаем repo
           curl https://storage.googleapis.com/git-repo-downloads/repo > ~/repo
           chmod a+x ~/repo
           sudo mv ~/repo /usr/local/bin/
@@ -31,11 +25,11 @@ jobs:
           repo init -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-12.1 --depth=1
           repo sync -j$(nproc) --force-sync
       
-      - name: Copy device tree to TWRP source
+      - name: Clone device tree
         run: |
-          mkdir -p twrp/device/tecno/lj7
-          cp -r device-tree/* twrp/device/tecno/lj7/
-          cp -r device-tree/.??* twrp/device/tecno/lj7/ 2>/dev/null || true
+          cd twrp
+          mkdir -p device/tecno
+          git clone https://github.com/XTENSEI/twrp_device_tecno_LJ7 device/tecno/lj7
       
       - name: Build vendor_boot image
         run: |
